@@ -1,0 +1,163 @@
+<div class="container">
+    <div class="section">
+
+       <!--   filter Section   -->
+      <div class="row">
+        <div class="col s12">
+          <div class="filterForm">
+            <form id="filter">
+            <div class="row">
+              <h5>Filter Results</h5>
+              <hr class="style">
+              <div class="input-field col s6">
+                <input id="filterAddress" type="text" class="validate">
+                <label for="filterAddress">Your Address</label>
+              </div>
+
+              <div class="input-field col s3">
+                <input id="checkIn" type="text" class="datepicker">
+                <label for="checkIn">Check In</label>
+              </div>
+
+              <div class="input-field col s3">
+                <input id="checkOut" type="text" class="datepicker">
+                <label for="checkOut">Check Out</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s3">
+                <input id="guestNum" type="number" name="quantity" min="1" max="20">
+                <label for="guestNum">Number of Guests</label>
+              </div>
+              <div class="input-field col s3 right">
+                 <a href="#" class="waves-effect waves-light btn filterButton">Filter</a>
+              </div>
+            </div>
+          </form> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="container">
+    <div class="section">
+      <div class="row">
+        <div class="col s12">
+          <h3 class="center">Total Pages: {{ pages }}</h3>
+          {{#each hosts}}
+          <div class="row">
+            <div class="col s12">
+              <div class="card horizontal">
+                <div class="card-image">
+                  <img src="/static/assets/images/home-solid/256x256.png">
+                </div>
+                <div class="card-content">
+                  <p class="card-title black-text"> Name: {{first_name}} {{ last_name }} </p>
+                  <p class="card-title black-text"> Address: {{address}} </p>
+                  <p class="card-title black-text"> Email Address: {{email}} </p>
+                  <a href="#">This is a link </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/each}}<ul class="pagination center">
+            <li class="waves-effect"><a class="special-link page-back" href="/listings/back">Previous Page</a></li>
+            <li class="waves-effect"><a class="special-link page-next" href="/listings/next">Next Page</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+{{!-- Google Autocomplete --}} 
+{{#sections 'head'}}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCH-6r9WrlUwy1swTIHIYFrm4IcXcjZDEk&libraries=geometry,places&callback=initMap"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+<script src="/static/assets/js/geocoder.js"></script>
+<script>
+  function initMap(){
+    var input = document.getElementById("filterAddress");
+    var autocomplete = new google.maps.places.Autocomplete(input);
+  }
+  $(function() {
+     $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year
+    format: 'yyyy-mm-dd' });
+  })
+</script>
+
+{{/sections}}
+
+{{#sections 'footer-1'}}
+<script>
+   $(document).ready(function(){
+    function page(page) {
+      this.path = page
+    }
+
+    $('.special-link').on('click', function (e) {
+      e.preventDefault()
+      var link = e.target.classList;
+      let referral = window.location.href;
+      let paginate = new page(referral);
+      paginate.currentPage = function () {
+        return this.path;
+      }
+
+      paginate.url = function (link, newPage, queryString) {
+        console.log('url' + link + "/listings/" + newPage + "?" + queryString)
+        window.location = link + "/listings/" + newPage + "?" + queryString
+      }
+
+      paginate.nextPage = function () {
+        var url = this.currentPage();
+        var regExp = /(\/([0-9]+)\?)/;
+        var pageNum = regExp.exec(url)[2];
+
+        regExp = /(\?(.+))/;
+        var queryString = regExp.exec(url)[2];
+        link = window.location.origin;
+
+        var newPage = Number(pageNum) + 1;
+        console.log(newPage + 'new page')
+
+        this.url(link, newPage, queryString);
+      }
+
+      paginate.prevPage = function () {
+        var url = this.currentPage();
+        var regExp = /(\/([0-9]+)\?)/;
+        var pageNum = regExp.exec(url)[2];
+
+        regExp = /(\?(.+))/;
+        var queryString = regExp.exec(url)[2];
+        link = window.location.origin;
+
+        var newPage = Number(pageNum) - 1;
+
+        this.url(link, newPage, queryString);
+      }
+
+
+      for (var i = 0; i < link.length; i++) {
+        if (link[i] === 'page-next') {
+          paginate.nextPage()
+        } else if (link[i] === 'page-back') {
+          paginate.prevPage()
+        }
+      }
+
+    });
+  });
+</script>
+{{/sections}}
+

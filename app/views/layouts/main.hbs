@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	<link href="/static/assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/static/assets/css/nouislider.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  	<link href="/static/assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/static/assets/css/materialize-social.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"></script> <script src="https://use.fontawesome.com/739a40d228.js"></script>
+    <link rel="icon" href="/static/assets/images/home-solid/64x64.png" type="image/png" sizes="16x16">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    {{{_sections.head}}}
+
+</head>
+<body>
+  
+    {{> shared/navbar }}
+    {{{ body }}}
+    {{> shared/footer }}
+
+    <!--  Scripts-->
+ 
+
+  <script>
+
+  $(document).ready(function(){
+    // modal for calendar features
+    $('.modal').modal();
+    $('select').material_select();
+
+    $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 5, // Creates a dropdown of 5 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+    });
+
+    $( ".logOut" ).click(function() {
+    // TO DO: GO BACK TO HOME PAGE
+    });
+  });
+   $(document).ready(function(){
+      $('.slider').slider();
+    });
+
+  </script>
+          
+  <script src="/static/assets/js/materialize.js"></script>
+  <script src="/static/assets/js/nouislider.js"></script>
+  <script src="/static/assets/js/init.js"></script>
+  
+  {{{_sections.footer}}}
+  {{{_sections.footer-1}}}
+  
+</body>
+</html>
